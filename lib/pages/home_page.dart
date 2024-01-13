@@ -26,18 +26,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _refreshUserData() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? token = prefs.getString('token');
-  if (token != null) {
-    User userData = await getUserData(token);
-    setState(() {
-      user = userData;
-    });
-  } else {
-    // Handle the case when the token is null.
-    print('No token found');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    if (token != null) {
+      User userData = await getUserData(token);
+      setState(() {
+        user = userData;
+      });
+    } else {
+      // Handle the case when the token is null.
+      print('No token found');
+    }
   }
-}
+
   Future<void> _loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
@@ -101,7 +102,11 @@ class _HomePageState extends State<HomePage> {
                       final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => DepositPage(),
+                          builder: (context) => DepositPage(
+                            refreshCallback: () {
+                              _refreshUserData();
+                            },
+                          ),
                         ),
                       );
 

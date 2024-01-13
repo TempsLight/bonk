@@ -6,6 +6,9 @@ import '../models/user_model.dart';
 import '../resources/service_functions.dart';
 
 class DepositPage extends StatefulWidget {
+  final Function refreshCallback;
+
+  DepositPage({required this.refreshCallback});
   @override
   _DepositPageState createState() => _DepositPageState();
 }
@@ -81,9 +84,8 @@ class _DepositPageState extends State<DepositPage> {
                       if (token != null && amount != null) {
                         bool success = await depositMoney(token, amount!);
                         if (success) {
-                          await _loadUserData();
-                          Navigator.pop(
-                              context); // Navigate back to the previous page
+                          widget.refreshCallback();
+                          Navigator.pop(context); // Navigate back to the previous page
                         }
                       } else {
                         print('Token or amount is null');
