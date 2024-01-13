@@ -1,9 +1,13 @@
+
+
 import 'package:final_project/pages/deposit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user_model.dart';
 import '../resources/service_functions.dart';
+
+import 'transaction_history_page.dart';
 import 'transaction_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,6 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   User? user;
+  String? userToken;
 
   @override
   void initState() {
@@ -24,6 +29,8 @@ class _HomePageState extends State<HomePage> {
     });
     _loadUserData();
   }
+
+ 
 
   Future<void> _refreshUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -91,7 +98,11 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TransactionPage(),
+                          builder: (context) => TransactionPage(
+                            refreshCallback: () {
+                              _refreshUserData();
+                            },
+                          ),
                         ),
                       );
                     },
@@ -117,6 +128,25 @@ class _HomePageState extends State<HomePage> {
                       }
                     },
                     child: const Text('Deposit'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TransactionHistoryPage(
+                            
+                          ),
+                        ),
+                      );
+
+                      if (result != null) {
+                        setState(() {
+                          user = result;
+                        });
+                      }
+                    },
+                    child: const Text('History'),
                   ),
                 ],
               ),

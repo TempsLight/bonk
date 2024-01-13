@@ -159,3 +159,54 @@ Future<bool> depositMoney(String token, double amount) async {
     throw Exception('Failed to deposit money');
   }
 }
+
+Future<bool> sendMoney(String token, String receiver_id, double amount) async {
+  final response = await http.post(
+    Uri.parse('$ipaddress/users/sendMoney'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $token',
+    },
+    body: jsonEncode(
+      <String, dynamic>{
+        'receiver_id': receiver_id,
+        'amount': amount,
+      },
+    ),
+  );
+  if (response.statusCode == 200) {
+    print('Money sent successfully');
+    return true;
+  } else {
+    print(
+        'Failed to send money. Status code: ${response.statusCode}, Response body: ${response.body}');
+    throw Exception('Failed to send money');
+  }
+}
+
+Future<List<dynamic>> fetchTransactionHistory() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? token = prefs.getString('token');
+
+  if (token == null) {
+    throw Exception('No token found');
+  }
+
+  final response = await http.get(
+    Uri.parse('http://192.168.31.97/api/users/transactions'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $token',
+    },
+  );
+
+  if (response.statusCode == 200) {
+        // If the server returns a 200 OK response, parse the JSON.
+    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+
+    // Replace 'transactions' with the actual key of the transaction logs in the JSON response
+    return jsonResponse['transactions'];
+  } else {
+    throw Exception('Failed to fetch transaction history');
+  }
+}
