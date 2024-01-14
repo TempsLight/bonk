@@ -68,7 +68,7 @@ Future<void> login(String email, String password, BuildContext context) async {
       // Navigate to HomePage
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       );
 
       // Login Message
