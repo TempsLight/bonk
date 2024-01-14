@@ -1,5 +1,3 @@
-
-
 import 'package:final_project/pages/deposit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,8 +27,6 @@ class _HomePageState extends State<HomePage> {
     });
     _loadUserData();
   }
-
- 
 
   Future<void> _refreshUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -134,9 +130,7 @@ class _HomePageState extends State<HomePage> {
                       final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TransactionHistoryPage(
-                            
-                          ),
+                          builder: (context) => TransactionHistoryPage(),
                         ),
                       );
 
