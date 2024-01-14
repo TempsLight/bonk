@@ -7,21 +7,6 @@ class HomeWithSidebar extends StatefulWidget {
 }
 
 class _HomeWithSidebarState extends State<HomeWithSidebar> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeWithSidebar(),
-    );
-  }
-}
-
-class _HomeWithSidebar extends StatefulWidget {
-  @override
-  _HomeWithSidebarState createState() => _HomeWithSidebarState();
-}
-
-class __HomeWithSidebarState extends State<HomeWithSidebar> {
   bool sidebarActive = false;
   @override
   Widget build(BuildContext context) {
