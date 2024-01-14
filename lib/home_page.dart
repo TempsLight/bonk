@@ -208,7 +208,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
             ),
           ),
         ),
-        SizedBox(
+        SizedBox(5``
           height: 0.5,
         ),
         Text(
@@ -227,7 +227,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     return Container(
       margin: EdgeInsets.only(right: 10),
       height: 150,
-      width: 140,
+      width: 120,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(15)),
           color: Color(0xffe8f5e9)),
