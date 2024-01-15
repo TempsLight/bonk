@@ -10,8 +10,8 @@ import '../model/user_model.dart';
 
 import 'variable.dart';
 
-
-Future<bool> register(String name, String email, String password, String phone_number, BuildContext context) async {
+Future<bool> register(String name, String email, String password,
+    String phone_number, int age, BuildContext context) async {
   ApiResponse apiResponse = ApiResponse();
   bool registrationSuccessful = false;
 
@@ -23,19 +23,21 @@ Future<bool> register(String name, String email, String password, String phone_n
       'email': email,
       'phone_number': phone_number,
       'password': password,
-      'password_confirmation': password
+      'password_confirmation': password,
+      'age': age.toString(),
     });
 
     switch (response.statusCode) {
       case 200:
         apiResponse.data = jsonDecode(response.body)['response'];
-        
+
         registrationSuccessful = true;
         break;
       // handle other status codes...
     }
   } catch (e) {
     apiResponse.error = e.toString();
+    print(e);
   }
 
   return registrationSuccessful;
@@ -57,7 +59,9 @@ Future<void> login(String email, String password, BuildContext context) async {
       // Navigate to HomePage
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) =>  HomePageScreen()),
+        MaterialPageRoute(
+          builder: (context) => HomePageScreen(),
+        ),
       );
 
       // Login Message
@@ -126,7 +130,8 @@ Future<User> getUserData(String token) async {
   }
 }
 
-Future<bool> depositMoney(String token, double amount) async {
+Future<bool> depositMoney(
+    String token, double amount, String phone_number) async {
   final response = await http.post(
     Uri.parse('$ipaddress/users/depositMoney'),
     headers: <String, String>{
@@ -134,8 +139,9 @@ Future<bool> depositMoney(String token, double amount) async {
       'Authorization': 'Bearer $token',
     },
     body: jsonEncode(
-      <String, double>{
+      <String, dynamic>{
         'amount': amount,
+        'phone_number': phone_number,
       },
     ),
   );
@@ -149,7 +155,7 @@ Future<bool> depositMoney(String token, double amount) async {
   }
 }
 
-Future<bool> sendMoney(String token, String receiver_id, double amount) async {
+Future<bool> sendMoney(String token, String phone_number, double amount) async {
   final response = await http.post(
     Uri.parse('$ipaddress/users/sendMoney'),
     headers: <String, String>{
@@ -158,7 +164,7 @@ Future<bool> sendMoney(String token, String receiver_id, double amount) async {
     },
     body: jsonEncode(
       <String, dynamic>{
-        'receiver_id': receiver_id,
+        'phone_number': phone_number,
         'amount': amount,
       },
     ),
@@ -190,11 +196,11 @@ Future<List<dynamic>> fetchTransactionHistory() async {
   );
 
   if (response.statusCode == 200) {
-        // If the server returns a 200 OK response, parse the JSON.
+    // If the server returns a 200 OK response, parse the JSON.
     Map<String, dynamic> jsonResponse = jsonDecode(response.body);
 
     // Replace 'transactions' with the actual key of the transaction logs in the JSON response
-    return jsonResponse['transactions'];
+    return jsonResponse['transactions'] ;
   } else {
     throw Exception('Failed to fetch transaction history');
   }

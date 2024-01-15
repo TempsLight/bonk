@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 import '../model/user_model.dart';
 import '../services/service_functions.dart';
 
@@ -17,9 +16,8 @@ class DepositPage extends StatefulWidget {
 class _DepositPageState extends State<DepositPage> {
   final _formKey = GlobalKey<FormState>();
   double? amount;
-
   User? user;
-
+  String? phoneNumber;
   @override
   void initState() {
     super.initState();
@@ -40,6 +38,7 @@ class _DepositPageState extends State<DepositPage> {
   Future<void> _loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
+    
     if (token != null) {
       User userData = await getUserData(token);
       setState(() {
@@ -77,16 +76,29 @@ class _DepositPageState extends State<DepositPage> {
                   return null;
                 },
               ),
+              TextField(
+                decoration: const InputDecoration(labelText: 'Phone Number'),
+                keyboardType: TextInputType.phone,
+                onChanged: (value) {
+                  phoneNumber = value;
+                },
+              ),
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     try {
-                      String? token = await getToken(); // Get the token
+                      String? token = await getToken();
+
+                      print(token);
+                      print(amount);
+                      print(phoneNumber);
                       if (token != null && amount != null) {
-                        bool success = await depositMoney(token, amount!);
+                        bool success =
+                            await depositMoney(token, amount!, phoneNumber!);
                         if (success) {
                           widget.refreshCallback();
-                          Navigator.pop(context); // Navigate back to the previous page
+                          Navigator.pop(
+                              context); // Navigate back to the previous page
                         }
                       } else {
                         print('Token or amount is null');

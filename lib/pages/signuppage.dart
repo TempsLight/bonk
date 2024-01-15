@@ -15,7 +15,8 @@ class _SignUpScreen extends State<SignUpScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _phoneNumberController = TextEditingController();
-
+  final _ageController = TextEditingController();
+ 
   @override
   Widget build(BuildContext context) {
     return initWidget();
@@ -119,6 +120,27 @@ class _SignUpScreen extends State<SignUpScreen> {
               ),
               alignment: Alignment.center,
               child: TextField(
+                controller: _ageController,
+                cursorColor: Color(0xFF1B5E20),
+                decoration: InputDecoration(
+                    icon: Icon(
+                      Icons.phone,
+                      color: Color(0xFF1B5E20),
+                    ),
+                    hintText: "Age",
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+              padding: EdgeInsets.only(left: 20, right: 20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: Colors.grey[200],
+              ),
+              alignment: Alignment.center,
+              child: TextField(
                 controller: _passwordController,
                 obscureText: true,
                 cursorColor: Color(0xFF1B5E20),
@@ -139,6 +161,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                   _emailController.text,
                   _passwordController.text,
                   _phoneNumberController.text,
+                   int.parse(_ageController.text),
                   context,
                 );
                 if (registrationSuccessful) {
@@ -146,6 +169,8 @@ class _SignUpScreen extends State<SignUpScreen> {
                   _emailController.clear();
                   _passwordController.clear();
                   _phoneNumberController.clear();
+                  _ageController.clear();
+                  // ignore: use_build_context_synchronously
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -157,13 +182,14 @@ class _SignUpScreen extends State<SignUpScreen> {
                             child: const Text('OK'),
                             onPressed: () {
                               Navigator.of(context).pop();
+                              Navigator.of(context).pop();
                             },
                           ),
                         ],
                       );
                     },
                   );
-                  Navigator.pop(context);
+                 
                 }
               },
               child: Container(
