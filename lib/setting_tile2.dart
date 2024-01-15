@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'setting.dart'; // Import the Setting class
 import 'constant.dart';
 import 'package:flutter/cupertino.dart';
-import 'profile_editing.dart';
-
 
 
 
 class SettingTile extends StatelessWidget {
-  final Setting setting;
+  final Setting2 setting;
   const SettingTile({
     super.key,
     required this.setting,
@@ -17,12 +15,7 @@ class SettingTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => ProfileEdit()
-                      ))
-
-                    }, 
+      onTap: () => { }, // nav bar for log out
       child: Row(
         children: [
           Container(

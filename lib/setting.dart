@@ -21,6 +21,18 @@ final List<Setting> settings = [
     icon: CupertinoIcons.person_fill,
   ),
 ];
+class Setting2 {
+  final String title;
+  final String route;
+  final IconData icon;
+
+  Setting2 ({
+    required this.title,
+    required this.route,
+    required this.icon,
+  });
+}
+
 
 final List<Setting> settings2 = [
   Setting(
