@@ -2,44 +2,35 @@ import 'package:flutter/material.dart';
 
 class HomePageScreen extends StatefulWidget {
   @override
-  _HomePageScreenState createState() => _HomePageScreenState();
+_HomePageScreenState createState() => _HomePageScreenState();
 }
 
 class _HomePageScreenState extends State<HomePageScreen> {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        padding: EdgeInsets.only(top: 70, left: 30, right: 30, bottom: 35),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/walletlogo.webp'),
-                    ),
-                  ),
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: Colors.white,
+    body: Container(
+      padding: EdgeInsets.only(top: 55, left: 30, right: 30, bottom: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Container(
+              height: 100,
+              width: 100,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/bonklogo.png'),
                 ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  "bONK",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontFamily: 'ubuntu',
-                  ),
-                ),
-              ],
+              ),
             ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
             Container(
-              padding: EdgeInsets.only(bottom: 5, top: 13),
+              padding: EdgeInsets.only(bottom: 5),
               alignment: Alignment.centerLeft,
               child: Text(
                 "  Account Overview",
@@ -251,9 +242,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 fontSize: 16,
                 fontFamily: "ubuntu",
                 fontWeight: FontWeight.w600),
-          )
-        ],
-      ),
-    );
-  }
+           ),
+        
+      
+      
+    ],
+  ),
+);
+}
 }
