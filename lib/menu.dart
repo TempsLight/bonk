@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
 import 'home_page.dart';
 import 'profile_page.dart';
 import 'transaction_history.dart';

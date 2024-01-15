@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'menu.dart';
-import 'profile_page.dart';
-import 'transaction_history.dart';
 
 void main() {
   runApp( MyApp());
