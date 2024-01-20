@@ -1,52 +1,78 @@
 import 'package:flutter/material.dart';
-import 'avatar_card.dart';
-import 'setting_tile.dart';
-import 'setting.dart';
+import 'profile_screen.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
-
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
+void main() {
+  runApp(const MyApp());
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const AvatarCard(),
-                const SizedBox(height: 20),
-                const Divider(),
-                const SizedBox(height: 10),
-                Column(
-                  children: List.generate(
-                    settings.length,
-                    (index) => SettingTile(setting: settings[index]),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Divider(),
-                const SizedBox(height: 10),
-                Column(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+       
+        primarySwatch: Colors.blue,
+      ),
+      home: const ProfilePage(),
+    );
+  }
+}
 
-                  children: List.generate(
-                    settings2.length,
-                    (index) => SettingTile(setting: settings2[index]),
-                  ),
-                ),
-              ],
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+     
+      _counter++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    
+    return Scaffold(
+      appBar: AppBar(
+        
+        title: Text(widget.title),
+      ),
+      body: Center(
+        
+        child: Column(
+          
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
             ),
-          ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+          ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
