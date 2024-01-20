@@ -1,4 +1,3 @@
-import 'package:final_project/pages/home_page.dart';
 import 'package:final_project/pages/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -8,6 +7,7 @@ import '../model/api_model.dart';
 
 import '../model/user_model.dart';
 
+import '../pages/menu.dart';
 import 'variable.dart';
 
 Future<bool> register(String name, String email, String password,
@@ -60,7 +60,7 @@ Future<void> login(String email, String password, BuildContext context) async {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePageScreen(),
+          builder: (context) => MyBottomNavBar(),
         ),
       );
 
@@ -196,12 +196,58 @@ Future<List<dynamic>> fetchTransactionHistory() async {
   );
 
   if (response.statusCode == 200) {
-    // If the server returns a 200 OK response, parse the JSON.
     Map<String, dynamic> jsonResponse = jsonDecode(response.body);
 
-    // Replace 'transactions' with the actual key of the transaction logs in the JSON response
-    return jsonResponse['transactions'] ;
+    return jsonResponse['transactions'];
   } else {
     throw Exception('Failed to fetch transaction history');
+  }
+}
+
+Future<void> deleteTransactionHistory(String transactionId) async {
+  final String url = '$ipaddress/transactions/$transactionId';
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? token = prefs.getString('token');
+
+  final response = await http.delete(
+    Uri.parse(url),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    print('Transaction deleted successfully');
+  } else {
+    throw Exception('Failed to delete transaction');
+  }
+}
+
+Future<void> editProfile(String id, String name, String email, String password,
+    String phoneNumber) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? token = prefs.getString('token');
+
+  final response = await http.put(
+    Uri.parse('http://192.168.31.97/api/users/edit/$id'),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    },
+    body: jsonEncode({
+      'name': name,
+      'email': email,
+      'password': password,
+      'phone_number': phoneNumber,
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    print('Profile edited successfully');
+  } else {
+    throw Exception('Failed to edit profile');
   }
 }

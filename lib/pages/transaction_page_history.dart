@@ -53,6 +53,21 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                   title: Text('Transaction ${index + 1}'),
                   subtitle: Text(
                       'Amount: ${transaction['amount']} Type: ${transaction['type']} Name: $name Phone Number: ${transaction['phone_number']}   Date and Time: $formattedDate'),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      deleteTransactionHistory(transaction['id'].toString())
+                          .then((_) {
+                        // Optionally, refresh the list of transactions after deleting
+                        setState(() {
+                          _transactionHistory = fetchTransactionHistory();
+                        });
+                      }).catchError((error) {
+                        // Handle the error here...
+                        print('Error deleting transaction: $error');
+                      });
+                    },
+                  ),
                 );
               },
             );

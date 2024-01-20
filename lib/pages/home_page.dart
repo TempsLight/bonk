@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user_model.dart';
 import '../services/service_functions.dart';
 import 'deposit_page.dart';
-import 'transaction_page_history.dart';
+
 
 class HomePageScreen extends StatefulWidget {
   @override
@@ -52,6 +52,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     }
   }
 
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -234,35 +235,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                "  Transaction History",
-                style: TextStyle(
-                    fontSize: 21,
-                    fontWeight: FontWeight.w800,
-                    fontFamily: 'ubuntu'),
-              ),
-              SizedBox(
-                width: double
-                    .infinity, // This will make the button take up the full width available
-                child: ElevatedButton.icon(
-                  onPressed: () async {
-                    final result = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TransactionHistoryPage(),
-                      ),
-                    );
-
-                    if (result != null) {
-                      setState(() {
-                        user = result;
-                      });
-                    }
-                  },
-                  icon: const Icon(Icons.history), // Use the appropriate icon
-                  label: const Text('Transaction History'),
-                ),
-              ),
+              
+              
             ],
           ),
         ),
