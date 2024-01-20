@@ -104,8 +104,19 @@ class _HomePageScreenState extends State<HomePageScreen> {
               Container(
                 padding: const EdgeInsets.only(bottom: 5, top: 13),
                 alignment: Alignment.centerLeft,
+                child: const Text(
+                  'Account Overview',
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                      fontFamily: 'ubuntu'),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.only(bottom: 5, top: 13),
+                alignment: Alignment.centerLeft,
                 child: Text(
-                  '   Account Overview ${user?.name}',
+                  '${user?.name}',
                   style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w800,
@@ -235,19 +246,19 @@ class _HomePageScreenState extends State<HomePageScreen> {
                     .infinity, // This will make the button take up the full width available
                 child: ElevatedButton.icon(
                   onPressed: () async {
-                      final result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TransactionHistoryPage(),
-                        ),
-                      );
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TransactionHistoryPage(),
+                      ),
+                    );
 
-                      if (result != null) {
-                        setState(() {
-                          user = result;
-                        });
-                      }
-                    },
+                    if (result != null) {
+                      setState(() {
+                        user = result;
+                      });
+                    }
+                  },
                   icon: const Icon(Icons.history), // Use the appropriate icon
                   label: const Text('Transaction History'),
                 ),

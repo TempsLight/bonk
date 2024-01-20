@@ -26,7 +26,7 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Transaction History'),
+        title: const Text('Transaction History'),
       ),
       body: FutureBuilder<List<dynamic>>(
         future: _transactionHistory,
@@ -36,10 +36,13 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
+            var sortedTransactions = List.from(snapshot.data ?? []);
+            sortedTransactions.sort((a, b) => DateTime.parse(b['created_at'])
+                .compareTo(DateTime.parse(a['created_at'])));
             return ListView.builder(
-              itemCount: snapshot.data?.length ?? 0,
+              itemCount: sortedTransactions.length,
               itemBuilder: (context, index) {
-                var transaction = snapshot.data?[index];
+                var transaction = sortedTransactions[index];
                 DateTime createdAt = DateTime.parse(transaction['created_at']);
                 String formattedDate =
                     DateFormat('yyyy-MM-dd – kk:mm').format(createdAt);
