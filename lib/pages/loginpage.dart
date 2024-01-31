@@ -12,6 +12,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool _obscureText = true;
+  
 
   void _togglePasswordVisibility() {
     setState(() {
@@ -27,21 +28,19 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           Container(
             height: 300,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 borderRadius:
                     BorderRadius.only(bottomLeft: Radius.circular(90)),
-                color: new Color(0xFFF1F8E9),
+                color: Color(0xFFF1F8E9),
                 gradient: LinearGradient(
-                    colors: [(new Color(0xFFA5D6A7)), (new Color(0xFFC8E6C9))],
+                    colors: [(Color(0xFFA5D6A7)), (Color(0xFFC8E6C9))],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter)),
           ),
           Container(
-            margin: EdgeInsets.only(right: 20, top: 30),
-            /* insert image */
-
+            margin: const EdgeInsets.only(right: 20, top: 30),
             alignment: Alignment.center,
-            child: Text(
+            child: const Text(
               "LOGIN",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -51,8 +50,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 20, right: 20, top: 60),
-            padding: EdgeInsets.only(left: 20, right: 20),
+            margin: const EdgeInsets.only(left: 20, right: 20, top: 60),
+            padding: const EdgeInsets.only(left: 20, right: 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
               color: Colors.grey[200],
@@ -60,8 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
             alignment: Alignment.center,
             child: TextField(
               controller: _emailController,
-              cursorColor: Color(0xFF1B5E20),
-              decoration: InputDecoration(
+              cursorColor: const Color(0xFF1B5E20),
+              decoration: const InputDecoration(
                   icon: Icon(
                     Icons.email,
                     color: Color(0xFF1B5E20),
@@ -72,8 +71,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 20, right: 20, top: 30),
-            padding: EdgeInsets.only(left: 20, right: 20),
+            margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
+            padding: const EdgeInsets.only(left: 20, right: 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
               color: Colors.grey[200],
@@ -82,9 +81,9 @@ class _LoginScreenState extends State<LoginScreen> {
             child: TextField(
               controller: _passwordController,
               obscureText: _obscureText,
-              cursorColor: Color(0xFF1B5E20),
+              cursorColor: const Color(0xFF1B5E20),
               decoration: InputDecoration(
-                icon: Icon(
+                icon: const Icon(
                   Icons.vpn_key,
                   color: Color(0xFF1B5E20),
                 ),
@@ -94,35 +93,38 @@ class _LoginScreenState extends State<LoginScreen> {
                 suffixIcon: IconButton(
                   icon: Icon(
                     _obscureText ? Icons.visibility : Icons.visibility_off,
-                    color: Color(0xFF1B5E20),
+                    color: const Color(0xFF1B5E20),
                   ),
                   onPressed: _togglePasswordVisibility,
                 ),
               ),
             ),
           ),
-          GestureDetector(
+          InkWell(
             onTap: () => {
               login(_emailController.text, _passwordController.text, context)
             },
             child: Container(
-              margin: EdgeInsets.only(left: 35, right: 35, top: 60),
+              margin: const EdgeInsets.only(left: 35, right: 35, top: 60),
               alignment: Alignment.center,
               height: 54,
+              
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [(new Color(0xFFA5D6A7)), (new Color(0xFFC8E6C9))],
+                
+                gradient: const LinearGradient(
+                    colors: [(Color(0xFFA5D6A7)), (Color(0xFFC8E6C9))],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight),
                 borderRadius: BorderRadius.circular(50),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
-                      offset: Offset(0, 10),
-                      blurRadius: 50,
-                      color: Color(0xFFF1F8E9))
+                    offset: Offset(0, 10),
+                    blurRadius: 50,
+                    color: Color(0xFFF1F8E9),
+                  )
                 ],
               ),
-              child: Text(
+              child: const Text(
                 "LOGIN",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -132,17 +134,19 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 40),
+            margin: const EdgeInsets.only(top: 40),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Don't have an Account?"),
+                const Text("Don't have an Account?"),
                 GestureDetector(
                   onTap: () => {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignUpScreen()))
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignUpScreen()))
                   },
-                  child: Text(
+                  child: const Text(
                     " Register here",
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Color(0xFF1B5E20)),

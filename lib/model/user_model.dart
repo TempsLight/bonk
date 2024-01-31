@@ -1,16 +1,16 @@
 class User {
   final int? id;
-  String? name;
-  String? email;
-  int? age;
-  String? balance;
-  String? token;
-  String? phone_number;
+  final String? name;
+  final String? email;
+  final int? age;
+  final String? balance;
+  final String? token;
+  final String? phone_number;
 
   User({
     required this.id,
-    this.name,
-    this.email,
+    required this.name,
+    required this.email,
     this.age,
     this.balance,
     this.token,

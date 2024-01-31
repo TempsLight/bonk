@@ -6,11 +6,13 @@ import '../services/service_functions.dart';
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key? key}) : super(key: key);
+
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  State<ProfilePage> createState() => _ProfileScreenState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfileScreenState extends State<ProfilePage> {
   User? user;
   String? userToken;
 
@@ -54,42 +56,150 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-      ),
+      backgroundColor: const Color(0xffe8f5e9),
       body: RefreshIndicator(
         onRefresh: _loadUserData,
-        child: ListView(
-          padding: const EdgeInsets.all(16.0),
-          children: <Widget>[
-            if (user != null) ...[
-              ListTile(
-                title: const Text('Name'),
-                subtitle: Text('${user?.name}'),
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 3,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(
+                        top: 80,
+                      ),
+                      child: const Icon(
+                        Icons.person,
+                        size: 130,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              ListTile(
-                title: const Text('Email'),
-                subtitle: Text('${user?.email}'),
+              Expanded(
+                flex: 7,
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    top: 50,
+                    left: 24,
+                    right: 24,
+                  ),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "PROFILE",
+                        style: TextStyle(
+                          fontFamily: "Montserrat",
+                          color: Colors.black87,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      listProfile(Icons.person, "Full Name",
+                          "${user?.name.toString()}"),
+                      listProfile(
+                          Icons.email, "E-mail", "${user?.email.toString()}"),
+                      listProfile(Icons.wallet, "Account Balance",
+                          "\$${user?.balance.toString()}"),
+                      listProfile(Icons.phone, "Account Number",
+                          "${user?.phone_number.toString()}"),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditProfilePage(),
+                              ),
+                            );
+                          },
+                          child: const Text('Edit Profile'),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            logout(context);
+                          },
+                          child: const Text(
+                            'Logout',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            onPrimary: Colors.red,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              ListTile(
-                title: const Text('Balance'),
-                subtitle: Text('\$${user!.balance}'),
-              ),
-              ListTile(
-                title: const Text('Account Number'),
-                subtitle: Text('${user?.phone_number}'),
-              ),
-              // Add more fields as needed...
             ],
-            ElevatedButton(
-              onPressed: () {
-                
-               Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfilePage()));
-              },
-              child: const Text('Edit Profile'),
-            ),
-          ],
+          ),
         ),
+      ),
+    );
+  }
+
+  Widget listProfile(IconData icon, String text1, String text2) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 20),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 25,
+          ),
+          const SizedBox(
+            width: 24,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                text1,
+                style: const TextStyle(
+                  color: Colors.black87,
+                  fontFamily: "Montserrat",
+                  fontSize: 14,
+                ),
+              ),
+              Text(
+                text2,
+                style: const TextStyle(
+                  color: Colors.black87,
+                  fontFamily: "Montserrat",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

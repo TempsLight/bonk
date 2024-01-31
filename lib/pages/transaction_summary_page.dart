@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import '../services/service_functions.dart';
 import 'package:intl/intl.dart';
 
-class TransactionHistoryPage extends StatefulWidget {
+class TransactionSummaryPage extends StatefulWidget {
   @override
-  _TransactionHistoryPageState createState() => _TransactionHistoryPageState();
+  _TransactionSummaryPageState createState() => _TransactionSummaryPageState();
 }
 
-class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
+class _TransactionSummaryPageState extends State<TransactionSummaryPage> {
   late Future<List<dynamic>> _transactionHistory;
 
   @override
@@ -32,7 +32,7 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
         future: _transactionHistory,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
@@ -45,39 +45,14 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                 var transaction = sortedTransactions[index];
                 DateTime createdAt = DateTime.parse(transaction['created_at']);
                 String formattedDate =
-                    DateFormat('yyyy-MM-dd | kk:mm').format(createdAt);
+                    DateFormat('yyyy-MM-dd – kk:mm').format(createdAt);
                 var receiver = transaction['receiver'];
                 String name =
                     receiver != null ? receiver['name'] : 'No name provided';
                 return ListTile(
                   title: Text('Transaction ${index + 1}'),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text('Transaction Details'),
-                          content: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Date and Time: $formattedDate'),
-                              Text('Amount: ${transaction['amount']}'),
-                              Text('Receiver: $name'),
-                              Text('Transaction Type: ${transaction['type']}'),
-                            ],
-                          ),
-                          actions: [
-                            TextButton(
-                              child: const Text('Close'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
+                  subtitle: Text(
+                      'Amount: ${transaction['amount']} Type: ${transaction['type']} Name: $name Phone Number: ${transaction['phone_number']}   Date and Time: $formattedDate'),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () {
@@ -88,7 +63,7 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                           _transactionHistory = fetchTransactionHistory();
                         });
                       }).catchError((error) {
-                        // Handle the error here...
+                        
                         print('Error deleting transaction: $error');
                       });
                     },
