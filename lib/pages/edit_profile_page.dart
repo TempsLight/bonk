@@ -9,10 +9,17 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   final _formKey = GlobalKey<FormState>();
-  String _name = '';
-  String _email = '';
-  String _password = '';
-  String _phoneNumber = '';
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    super.dispose();
+  }
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -20,36 +27,43 @@ class _EditProfilePageState extends State<EditProfilePage> {
       appBar: AppBar(
         title: Text('Edit Profile'),
       ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
           child: Column(
             children: <Widget>[
               TextFormField(
-                decoration: InputDecoration(labelText: 'Name'),
-                onSaved: (value) => _name = value ?? '',
+                controller: _nameController,
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Email'),
-                onSaved: (value) => _email = value ?? '',
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Password'),
-                onSaved: (value) => _password = value ?? '',
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Phone Number'),
-                onSaved: (value) => _phoneNumber = value ?? '',
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  return null;
+                },
               ),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    editProfile('id', _name, _email, _password, _phoneNumber); // replace 'id' with the actual user id
+                    editProfile(_nameController.text, _emailController.text, context);
                   }
                 },
-                child: Text('Save'),
+                child: Text('Update Profile'),
               ),
             ],
           ),

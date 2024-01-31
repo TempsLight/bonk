@@ -16,7 +16,15 @@ class _SignUpScreen extends State<SignUpScreen> {
   final _passwordController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   final _ageController = TextEditingController();
- 
+  final _sexController = TextEditingController();
+  bool _obscureText = true;
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return initWidget();
@@ -121,10 +129,10 @@ class _SignUpScreen extends State<SignUpScreen> {
               alignment: Alignment.center,
               child: TextField(
                 controller: _ageController,
-                cursorColor: Color(0xFF1B5E20),
-                decoration: InputDecoration(
+                cursorColor: const Color(0xFF1B5E20),
+                decoration: const InputDecoration(
                     icon: Icon(
-                      Icons.phone,
+                      Icons.calendar_month,
                       color: Color(0xFF1B5E20),
                     ),
                     hintText: "Age",
@@ -140,18 +148,58 @@ class _SignUpScreen extends State<SignUpScreen> {
                 color: Colors.grey[200],
               ),
               alignment: Alignment.center,
+              child: DropdownButtonFormField<String>(
+                isExpanded: true,
+                value: _sexController.text.isEmpty ? null : _sexController.text,
+                decoration: InputDecoration(
+                  icon: const Icon(
+                    Icons.person_3,
+                    color: Color(0xFF1B5E20),
+                  ),
+                  hintText: 'Sex',
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _sexController.text = newValue!;
+                  });
+                },
+                items: <String>['Male', 'Female']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+              padding: EdgeInsets.only(left: 20, right: 20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: Colors.grey[200],
+              ),
+              alignment: Alignment.center,
               child: TextField(
                 controller: _passwordController,
-                obscureText: true,
+                obscureText: _obscureText,
                 cursorColor: Color(0xFF1B5E20),
                 decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.vpn_key,
+                    color: Color(0xFF1B5E20),
+                  ),
+                  hintText: "Password",
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  suffixIcon: IconButton(
                     icon: Icon(
-                      Icons.vpn_key,
-                      color: Color(0xFF1B5E20),
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                      color: const Color(0xFF1B5E20),
                     ),
-                    hintText: "Password",
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none),
+                    onPressed: _togglePasswordVisibility,
+                  ),
+                ),
               ),
             ),
             GestureDetector(
@@ -161,7 +209,8 @@ class _SignUpScreen extends State<SignUpScreen> {
                   _emailController.text,
                   _passwordController.text,
                   _phoneNumberController.text,
-                   int.parse(_ageController.text),
+                  _sexController.text,
+                  int.parse(_ageController.text),
                   context,
                 );
                 if (registrationSuccessful) {
@@ -170,6 +219,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                   _passwordController.clear();
                   _phoneNumberController.clear();
                   _ageController.clear();
+                  _sexController.clear();
                   // ignore: use_build_context_synchronously
                   showDialog(
                     context: context,
@@ -189,11 +239,10 @@ class _SignUpScreen extends State<SignUpScreen> {
                       );
                     },
                   );
-                 
                 }
               },
               child: Container(
-                margin: EdgeInsets.only(left: 35, right: 35, top: 60),
+                margin: EdgeInsets.only(left: 35, right: 35, top: 40),
                 alignment: Alignment.center,
                 height: 54,
                 decoration: BoxDecoration(
@@ -219,7 +268,7 @@ class _SignUpScreen extends State<SignUpScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 40),
+              margin: EdgeInsets.only(top: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
